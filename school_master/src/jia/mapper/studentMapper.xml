@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jia.mapper.studentMapper">
+   <select id="getStudent" resultType="jia.bean.student">
+       select * from student limit #{index},#{currentcount}
+   </select>
+    <select id="getCount" resultType="int">
+        select count(*) from student
+    </select>
+    <insert id="insertStudent" parameterType="jia.bean.student">
+        insert into student(Sno,Sname,Ssex,Sage,Sdept,Sclass,psw) values(#{student.sno},#{student.sname},#{student.ssex},#{student.sage},#{student.sdept},#{student.sclass},'123456')
+    </insert>
+    <select id="getStudentBySno" parameterType="String" resultType="jia.bean.student">
+        select * from student where sno=#{sno}
+    </select>
+    <update id="updateStudentBySno" parameterType="jia.bean.student">
+        update student set sname=#{student.sname},ssex=#{student.ssex},sdept=#{student.sdept},sclass=#{student.sclass} where sno=#{student.sno}
+    </update>
+    <select id="getGradeBySno" parameterType="String" resultType="jia.vo.courseVo">
+        select student.sname,course.Cname,sc.Grade from student,sc,course where student.sno=sc.sno and sc.cno=course.cno and student.sno=#{sno}
+    </select>
+    <delete id="delStudent" parameterType="String">
+        delete from student where sno=#{sno}
+    </delete>
+    <insert id="insertGrade" parameterType="jia.bean.sc">
+        insert into sc values(#{sc.sno},#{sc.cno},#{sc.grade})
+    </insert>
+    <select id="serch" parameterType="String" resultType="jia.bean.student">
+        select * from student where sname=#{sname}
+    </select>
+    <select id="serchgrade" parameterType="String" resultType="jia.bean.sc">
+        select * from sc where sno=#{sno}
+    </select>
+    <select id="getSnoByname" parameterType="String" resultType="String">
+        select sno from student where sname=#{sname}
+    </select>
+    <select id="login" parameterType="jia.bean.user" resultType="java.lang.Integer">
+        select count(*) from user where name=#{user.name} and psw=#{user.psw}
+    </select>
+</mapper>
